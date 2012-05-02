@@ -6,7 +6,7 @@ def _local_path(*args):
     return os.path.join(os.path.abspath(os.path.dirname(__file__)), *args)
 
 # environments
-env.hosts = ['root@guido.52prototypes.ch']
+env.user = 'root'
 env.rsync_exclude = ['.settings/',
                      '.project',
                      '.pydevproject',
