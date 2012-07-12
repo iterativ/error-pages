@@ -19,6 +19,8 @@ env.local_app = _local_path() + '/'
 
 def deploy():
 
+    run('mkdir -p %(remote_app)s' % env) 
+    
     # sources & templates
     rsync_project(
         remote_dir = env.remote_app,
