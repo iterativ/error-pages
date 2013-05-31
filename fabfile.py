@@ -2,11 +2,14 @@ import os
 from fabric.api import *
 from fabric.contrib.project import *
 
+
 def _local_path(*args):
     return os.path.join(os.path.abspath(os.path.dirname(__file__)), *args)
 
+
 # environments
-env.user = 'root'
+env.use_ssh_config = True
+env.hosts = ['cloudsigma.iterativ.ch']
 env.rsync_exclude = ['.settings/',
                      '.project',
                      '.pydevproject',
@@ -18,10 +21,9 @@ env.rsync_exclude = ['.settings/',
 env.remote_app = '/srv/www/error-pages'
 env.local_app = _local_path() + '/'
 
-def deploy():
 
+def deploy():
     sudo('mkdir -p %(remote_app)s' % env)
-    
     # sources & templates
     rsync_project(
         remote_dir = env.remote_app,
@@ -30,6 +32,5 @@ def deploy():
         extra_opts='--rsync-path="sudo rsync"',
     )    
     
-    sudo('/etc/init.d/nginx restart')
-    
-
+    # don't restart on error pages update
+    #run('/etc/init.d/nginx restart')
