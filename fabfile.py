@@ -11,6 +11,7 @@ env.rsync_exclude = ['.settings/',
                      '.project',
                      '.pydevproject',
                      '.git/',
+                     '.idea/',
                      '*.py',
                      '*.pyc',
                      '.keep']
@@ -19,15 +20,16 @@ env.local_app = _local_path() + '/'
 
 def deploy():
 
-    run('mkdir -p %(remote_app)s' % env) 
+    sudo('mkdir -p %(remote_app)s' % env)
     
     # sources & templates
     rsync_project(
         remote_dir = env.remote_app,
         local_dir = env.local_app,
         exclude = env.rsync_exclude,
+        extra_opts='--rsync-path="sudo rsync"',
     )    
     
-    run('/etc/init.d/nginx restart')
+    sudo('/etc/init.d/nginx restart')
     
 
