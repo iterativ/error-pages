@@ -9,7 +9,9 @@ def _local_path(*args):
 
 # environments
 env.use_ssh_config = True
-env.hosts = ['cloudsigma.iterativ.ch']
+# Warning:
+# env.hosts = ['cloudsigma.iterativ.ch'] don't specify hard code hosts
+# use fab deploy -Hcloudsigma.iterativ.ch
 env.rsync_exclude = ['.settings/',
                      '.project',
                      '.pydevproject',
@@ -31,6 +33,6 @@ def deploy():
         exclude = env.rsync_exclude,
         extra_opts='--rsync-path="sudo rsync"',
     )    
-    
+
     # don't restart on error pages update
     #run('/etc/init.d/nginx restart')
